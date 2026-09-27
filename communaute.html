@@ -28,53 +28,103 @@
     document.getElementById("title").textContent = t("forum");
     document.getElementById("note").textContent = t("forumNote");
     document.getElementById("me").textContent = t("tuEs") + " " + me;
+
     const LOCAL = "agri-forum";
-    function localData() { return JSON.parse(localStorage.getItem(LOCAL) || '{"sujets":[],"reponses":{}}'); }
+    function localData() {
+      return JSON.parse(localStorage.getItem(LOCAL) || '{"sujets":[],"reponses":{}}');
+    }
     function saveLocal(d) { localStorage.setItem(LOCAL, JSON.stringify(d)); }
-    function allSujets() { return AGRI.forum.concat(localData().sujets || []); }
+
+    function allSujets() {
+      const extra = localData().sujets || [];
+      return AGRI.forum.concat(extra);
+    }
     function reponsesDe(id) {
       const base = (AGRI.forum.find((s) => s.id === id) || {}).reponses || [];
-      return base.concat((localData().reponses || {})[id] || []);
+      const extra = (localData().reponses || {})[id] || [];
+      return base.concat(extra);
     }
-    function catNom(id) { return (AGRI.forumCats.find((c) => c.id === id) || {}).nom || id; }
+    function catNom(id) {
+      return (AGRI.forumCats.find((c) => c.id === id) || {}).nom || id;
+    }
+
     const params = new URLSearchParams(location.search);
     let filtre = params.get("cat") || "tous";
     const ouvert = params.get("sujet");
+
     function catsBar() {
       const items = [{ id: "tous", nom: t("tous") }].concat(AGRI.forumCats);
       document.getElementById("cats").innerHTML = items.map((c) =>
         `<button class="chip ${c.id === filtre ? "on" : ""}" onclick="location.href='communaute.html?cat=${c.id}'">${c.nom}</button>`
       ).join("") + `<button class="btn" onclick="nouveau()">${t("nouveauSujet")}</button>`;
     }
+
     function liste() {
       const list = allSujets().filter((s) => filtre === "tous" || s.cat === filtre);
       document.getElementById("view").innerHTML = list.map((s) => {
         const n = reponsesDe(s.id).length;
-        return `<a class="card forum-item" href="communaute.html?sujet=${s.id}"><div class="tag">${catNom(s.cat)}</div><h3>${s.titre}</h3><p class="meta">${s.auteur} · ${s.date} · ${n} ${t("reponses")}</p><p>${s.texte}</p></a>`;
+        return `<a class="card forum-item" href="communaute.html?sujet=${s.id}">
+          <div class="tag">${catNom(s.cat)}</div>
+          <h3>${s.titre}</h3>
+          <p class="meta">${s.auteur} · ${s.date} · ${n} ${t("reponses")}</p>
+          <p>${s.texte}</p>
+        </a>`;
       }).join("") || `<p class="note">${t("aucunMsg")}</p>`;
     }
+
     function sujet() {
       const s = allSujets().find((x) => x.id === ouvert);
       if (!s) { liste(); return; }
       document.getElementById("cats").innerHTML = `<a class="btn ghost" href="communaute.html">${t("retourForum")}</a>`;
-      const reps = reponsesDe(s.id).map((r) => `<article class="post"><div class="meta"><strong>${r.auteur}</strong> · ${r.date}</div><p>${r.texte}</p></article>`).join("");
-      document.getElementById("view").innerHTML = `<article class="card"><div class="tag">${catNom(s.cat)}</div><h3>${s.titre}</h3><p class="meta">${s.auteur} · ${s.date}</p><p>${s.texte}</p></article><h3>${t("reponses")}</h3>${reps || `<p class="note">${t("aucuneReponse")}</p>`}<article class="card"><h3>${t("repondre")} · ${me}</h3><textarea id="rep" rows="4" class="field"></textarea><p><button class="btn" onclick="repondre('${s.id}')">${t("envoyer")}</button></p></article>`;
+      const reps = reponsesDe(s.id).map((r) => `
+        <article class="post">
+          <div class="meta"><strong>${r.auteur}</strong> · ${r.date}</div>
+          <p>${r.texte}</p>
+        </article>`).join("");
+      document.getElementById("view").innerHTML = `
+        <article class="card">
+          <div class="tag">${catNom(s.cat)}</div>
+          <h3>${s.titre}</h3>
+          <p class="meta">${s.auteur} · ${s.date}</p>
+          <p>${s.texte}</p>
+        </article>
+        <h3>${t("reponses")}</h3>
+        ${reps || `<p class="note">${t("aucuneReponse")}</p>`}
+        <article class="card">
+          <h3>${t("repondre")} · ${me}</h3>
+          <textarea id="rep" rows="4" class="field" placeholder="${t("inquietudePh")}"></textarea>
+          <p><button class="btn" onclick="repondre('${s.id}')">${t("envoyer")}</button></p>
+        </article>`;
     }
+
     window.nouveau = function () {
       document.getElementById("cats").innerHTML = `<a class="btn ghost" href="communaute.html">${t("retourForum")}</a>`;
       const opts = AGRI.forumCats.map((c) => `<option value="${c.id}">${c.nom}</option>`).join("");
-      document.getElementById("view").innerHTML = `<article class="card"><h3>${t("nouveauSujet")}</h3><p class="note">${t("tuEs")} ${me}</p><label>${t("categorie")}<select id="ncat">${opts}</select></label><input class="field" id="ntitre" placeholder="${t("titreSujet")}" /><textarea id="ntexte" rows="5" class="field"></textarea><p><button class="btn" onclick="creer()">${t("envoyer")}</button></p></article>`;
+      document.getElementById("view").innerHTML = `
+        <article class="card">
+          <h3>${t("nouveauSujet")}</h3>
+          <p class="note">${t("tuEs")} ${me}</p>
+          <label>${t("categorie")}<select id="ncat">${opts}</select></label>
+          <input class="field" id="ntitre" placeholder="${t("titreSujet")}" />
+          <textarea id="ntexte" rows="5" class="field" placeholder="${t("inquietudePh")}"></textarea>
+          <p><button class="btn" onclick="creer()">${t("envoyer")}</button></p>
+        </article>`;
     };
+
     window.creer = function () {
       const titre = document.getElementById("ntitre").value.trim();
       const texte = document.getElementById("ntexte").value.trim();
       if (!titre || !texte) return;
       const d = localData();
       const id = "l" + Date.now();
-      d.sujets.push({ id, cat: document.getElementById("ncat").value, titre, texte, auteur: me, date: new Date().toLocaleDateString("fr-FR") });
+      d.sujets.push({
+        id, cat: document.getElementById("ncat").value, titre, texte,
+        auteur: me, date: new Date().toLocaleDateString("fr-FR")
+      });
       saveLocal(d);
       location.href = "communaute.html?sujet=" + id;
     };
+
     window.repondre = function (id) {
       const texte = document.getElementById("rep").value.trim();
       if (!texte) return;
@@ -84,8 +134,10 @@
       saveLocal(d);
       location.href = "communaute.html?sujet=" + id;
     };
+
     catsBar();
-    if (ouvert) sujet(); else liste();
+    if (ouvert) sujet();
+    else liste();
   </script>
 </body>
 </html>
