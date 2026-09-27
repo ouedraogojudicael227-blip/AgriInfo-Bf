@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contacts — AgriInfo BF</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <div id="header"></div>
+  <main class="wrap section">
+    <h2 id="title"></h2>
+    <p class="note" id="intro"></p>
+    <section id="ministere"></section>
+    <h3 id="partTitle"></h3>
+    <div id="list" class="grid cards-2"></div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById("header").outerHTML = headerHTML();
+    document.getElementById("footer").outerHTML = footerHTML();
+    const t = (k) => AgriApp.t(k);
+    document.getElementById("title").textContent = t("contacts");
+    document.getElementById("intro").textContent = t("contactIntro");
+    document.getElementById("partTitle").textContent = t("partenaires");
+    const m = AGRI.contacts.ministere;
+    document.getElementById("ministere").innerHTML = `<article class="card"><div class="tag">${t("ministere")}</div><h3>${m.nom}</h3><p>${m.note}</p><p><strong>Adresse :</strong> ${m.adresse}</p><p><strong>Telephone :</strong> <a href="tel:+22625499900">${m.tel}</a></p><p><a class="btn" href="${m.site}" target="_blank" rel="noopener">${t("ouvrirSite")} agriculture.bf</a></p></article>`;
+    document.getElementById("list").innerHTML = AGRI.contacts.partenaires.map((p) => `<article class="card"><h3>${p.nom}</h3><p>${p.role}</p>${p.tel ? `<p>Tel. : ${p.tel}</p>` : ""}${p.site ? `<p><a class="btn" href="${p.site}" target="_blank" rel="noopener">${t("ouvrirSite")}</a></p>` : ""}</article>`).join("");
+  </script>
+</body>
+</html>
