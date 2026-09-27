@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conseils — AgriInfo BF</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <div id="header"></div>
+  <main class="wrap section">
+    <h2 id="title"></h2>
+    <p class="note" id="zoneNote"></p>
+    <p class="note" id="srcNote"></p>
+    <div id="list" class="grid cards-2"></div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById("header").outerHTML = headerHTML();
+    document.getElementById("footer").outerHTML = footerHTML();
+    const t = (k) => AgriApp.t(k);
+    const zone = AgriApp.zone();
+    document.getElementById("title").textContent = t("conseils");
+    document.getElementById("zoneNote").textContent = t("taZone") + " : " + AGRI.zones[zone].nom;
+    document.getElementById("srcNote").innerHTML = t("sourceOfficielle");
+    const q = (new URLSearchParams(location.search).get("q") || "").toLowerCase();
+    const list = AGRI.cultures.filter((c) => {
+      if (!q) return true;
+      return [c.nom, c.regions, c.resume, c.eau, c.associer, ...(c.conseils||[]), ...(c.maladies||[])].join(" ").toLowerCase().includes(q);
+    }).sort((a, b) => {
+      const az = (a.adapte || []).includes(zone) ? 0 : 1;
+      const bz = (b.adapte || []).includes(zone) ? 0 : 1;
+      return az - bz;
+    });
+    document.getElementById("list").innerHTML = list.length ? list.map((c) => `
+      <article class="card" id="${c.id}">
+        <div class="row">
+          <div class="tag">${(c.adapte || []).includes(zone) ? t("adapteIci") : t("moinsAdapte")}</div>
+          <button class="fav" data-fav="${c.id}" onclick="AgriApp.toggleFav('${c.id}')">${AgriApp.isFav(c.id) ? "\u2605" : "\u2606"}</button>
+        </div>
+        <h3>${c.nom}</h3>
+        <img class="fiche-img" src="${AgriApp.img(c.id)}" alt="${c.nom}" onerror="this.remove()" />
+        <p>${c.resume}</p>
+        <p><strong>${t("semences")} (${AGRI.zones[zone].nom}) :</strong> ${c.semis[zone]}</p>
+        ${c.varietes ? `<p><strong>${t("varietes")} :</strong> ${c.varietes}</p>` : ""}
+        ${c.densite ? `<p><strong>${t("densite")} :</strong> ${c.densite}</p>` : ""}
+        <p><strong>${t("eau")} :</strong> ${c.eau}</p>
+        <p><strong>${t("associer")} :</strong> ${c.associer}</p>
+        <h4>${t("aFaire")}</h4>
+        <ul class="list">${c.conseils.map((x) => `<li>${x}</li>`).join("")}</ul>
+        <h4>${t("vigilance")}</h4>
+        <ul class="list">${c.maladies.map((x) => `<li>${x}</li>`).join("")}</ul>
+      </article>`).join("") : `<div class="card">${t("aucunResultat")}</div>`;
+  </script>
+</body>
+</html>
