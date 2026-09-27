@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriInfo BF</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2f6b32" />
+</head>
+<body>
+  <div id="header"></div>
+  <main class="wrap">
+    <section class="hero">
+      <h1 id="heroTitre"></h1>
+      <p id="heroTexte"></p>
+      <form class="search" onsubmit="event.preventDefault(); AgriApp.search(document.getElementById('q').value)">
+        <input id="q" />
+        <button type="submit" id="btnSearch"></button>
+      </form>
+      <p class="note" id="zoneNote"></p>
+      <p class="note" id="anonNote"></p>
+      <p class="row" id="shellBtns"></p>
+    </section>
+    <section class="section">
+      <h2 id="actTitle"></h2>
+      <div id="actions" class="grid"></div>
+    </section>
+    <section class="section">
+      <h2 id="alTitle"></h2>
+      <div id="homeAlerts" class="grid cards-2"></div>
+    </section>
+    <section class="section grid cards-3" id="cards"></section>
+    <p class="note" id="offline"></p>
+  </main>
+  <div id="footer"></div>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById("header").outerHTML = headerHTML();
+    document.getElementById("footer").outerHTML = footerHTML();
+    const t = (k) => AgriApp.t(k);
+    const zone = AGRI.zones[AgriApp.zone()];
+    document.getElementById("heroTitre").textContent = t("heroTitre");
+    document.getElementById("heroTexte").textContent = t("heroTexte");
+    document.getElementById("q").placeholder = t("searchPh");
+    document.getElementById("btnSearch").textContent = t("chercher");
+    document.getElementById("zoneNote").textContent = t("taZone") + " : " + zone.nom + " — " + zone.pluie;
+    document.getElementById("anonNote").textContent = t("anonyme") + " " + t("openSource");
+    document.getElementById("shellBtns").innerHTML = AgriApp.isApp()
+      ? `<button class="btn" onclick="AgriApp.enableNotifs()">${t("activerNotifs")}</button>
+         <button class="btn ghost" onclick="AgriApp.setShell('web')">${t("voirSite")}</button>`
+      : `<button class="btn" onclick="AgriApp.installApp()">${t("installerApp")}</button>
+         <button class="btn ghost" onclick="AgriApp.setShell('app')">${t("ouvrirApp")}</button>
+         <button class="btn ghost" onclick="AgriApp.enableNotifs()">${t("activerNotifs")}</button>`;
+    document.getElementById("offline").textContent = t("offlineOk");
+    document.getElementById("actTitle").textContent = t("actionsJour");
+    document.getElementById("alTitle").textContent = t("alertesDuMois");
+    const month = new Date().getMonth();
+    const zid = AgriApp.zone();
+    document.getElementById("actions").innerHTML = AGRI.actions[zid][month].map((a, i) =>
+      `<article class="card"><h3><span class="num">${i + 1}</span> ${a}</h3></article>`
+    ).join("") + `<p><a class="btn" href="semaine.html">${t("voirTout")}</a></p>`;
+    const cur = AGRI.alertes.filter((a) => a.quand.includes(month) && a.zones.includes(zid)).slice(0, 2);
+    document.getElementById("homeAlerts").innerHTML = (cur.length ? cur : AGRI.alertes.slice(0, 2)).map((a) =>
+      `<article class="card alert"><h3>${a.titre}</h3><p>${a.texte}</p></article>`
+    ).join("");
+    document.getElementById("cards").innerHTML = `
+      <a class="card" href="conseils.html"><div class="tag">${t("conseils")}</div><h3>${t("cardCultures")}</h3><p>${t("cardCulturesTxt")}</p></a>
+      <a class="card" href="semaine.html"><div class="tag">${t("semaine")}</div><h3>${t("cardSemaine")}</h3><p>${t("cardSemaineTxt")}</p></a>
+      <a class="card" href="alertes.html"><div class="tag">${t("alertes")}</div><h3>${t("cardAlertes")}</h3><p>${t("cardAlertesTxt")}</p></a>
+      <a class="card" href="techniques.html"><div class="tag">${t("techniques")}</div><h3>${t("cardTech")}</h3><p>${t("cardTechTxt")}</p></a>
+      <a class="card" href="contacts.html"><div class="tag">${t("contacts")}</div><h3>${t("ministere")}</h3><p>${t("contactIntro")}</p></a>`;
+  </script>
+</body>
+</html>
