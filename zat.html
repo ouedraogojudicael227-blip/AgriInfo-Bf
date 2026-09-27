@@ -13,9 +13,18 @@
     <h2 id="title"></h2>
     <p class="note" id="note"></p>
     <article class="card">
-      <h3>Comment ca marche (site du ministere)</h3>
-      <p>Sur agriculture.bf : UAT (village), ZAT (commune), DPARAH (province), DRARAH (region), MAERAH (Ouaga). Pas d annuaire telephone de tous les ZAT.</p>
-      <p><a class="btn" href="https://www.agriculture.bf/les-structures/" target="_blank" rel="noopener">Structures officielles</a></p>
+      <h3>Comment ça marche (site du ministère)</h3>
+      <p>Sur agriculture.bf, le ministère décrit la chaîne officielle. Il n’y a <strong>pas d’annuaire public de tous les ZAT</strong> avec téléphone.</p>
+      <ol>
+        <li><strong>Village</strong> — UAT (Unité d’animation technique)</li>
+        <li><strong>Commune</strong> — ZAT (Zone d’appui technique)</li>
+        <li><strong>Province</strong> — DPARAH (Direction provinciale)</li>
+        <li><strong>Région</strong> — DRARAH (Direction régionale)</li>
+        <li><strong>Ouaga</strong> — MAERAH / DGPV, standard +226 25 49 99 00</li>
+      </ol>
+      <p>Pour trouver ton ZAT : mairie de la commune, ou Direction provinciale de l’Agriculture du chef-lieu.</p>
+      <p><a class="btn" href="https://www.agriculture.bf/les-structures/" target="_blank" rel="noopener">Structures officielles</a>
+         <a class="btn ghost" href="https://www.agriculture.bf/" target="_blank" rel="noopener">agriculture.bf</a></p>
     </article>
     <div id="ici"></div>
     <h3 id="allTitle"></h3>
@@ -33,8 +42,20 @@
     document.getElementById("title").textContent = t("zat");
     document.getElementById("note").textContent = t("zatNote");
     document.getElementById("allTitle").textContent = t("autresRegions");
-    document.getElementById("ici").innerHTML = `<article class="card"><div class="tag">${t("tonService")}</div><h3>${me.nom} — ${me.ville}</h3><p>${me.service}</p><p><a class="btn" href="tel:${me.tel.replace(/\s/g,"")}">${me.tel}</a></p></article>`;
-    document.getElementById("list").innerHTML = AGRI.regions.filter((r) => r.id !== me.id).map((r) => `<article class="card"><h3>${r.nom} — ${r.ville}</h3><p>${r.service}</p><p><a href="tel:${r.tel.replace(/\s/g,"")}">${r.tel}</a></p></article>`).join("");
+    document.getElementById("ici").innerHTML = `
+      <article class="card">
+        <div class="tag">${t("tonService")}</div>
+        <h3>${me.nom} — ${me.ville}</h3>
+        <p>${me.service}</p>
+        <p><a class="btn" href="tel:${me.tel.replace(/\s/g,'')}">${me.tel}</a></p>
+        <p><a href="https://www.agriculture.bf/" target="_blank" rel="noopener">agriculture.bf</a></p>
+      </article>`;
+    document.getElementById("list").innerHTML = AGRI.regions.filter((r) => r.id !== me.id).map((r) => `
+      <article class="card">
+        <h3>${r.nom} — ${r.ville}</h3>
+        <p>${r.service}</p>
+        <p><a href="tel:${r.tel.replace(/\s/g,'')}">${r.tel}</a></p>
+      </article>`).join("");
   </script>
 </body>
 </html>

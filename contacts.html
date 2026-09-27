@@ -28,8 +28,27 @@
     document.getElementById("intro").textContent = t("contactIntro");
     document.getElementById("partTitle").textContent = t("partenaires");
     const m = AGRI.contacts.ministere;
-    document.getElementById("ministere").innerHTML = `<article class="card"><div class="tag">${t("ministere")}</div><h3>${m.nom}</h3><p>${m.note}</p><p><strong>Adresse :</strong> ${m.adresse}</p><p><strong>Telephone :</strong> <a href="tel:+22625499900">${m.tel}</a></p><p><a class="btn" href="${m.site}" target="_blank" rel="noopener">${t("ouvrirSite")} agriculture.bf</a></p></article>`;
-    document.getElementById("list").innerHTML = AGRI.contacts.partenaires.map((p) => `<article class="card"><h3>${p.nom}</h3><p>${p.role}</p>${p.tel ? `<p>Tel. : ${p.tel}</p>` : ""}${p.site ? `<p><a class="btn" href="${p.site}" target="_blank" rel="noopener">${t("ouvrirSite")}</a></p>` : ""}</article>`).join("");
+    document.getElementById("ministere").innerHTML = `
+      <article class="card">
+        <div class="tag">${t("ministere")}</div>
+        <h3>${m.nom}</h3>
+        <p>${m.note}</p>
+        <p><strong>Adresse :</strong> ${m.adresse}</p>
+        <p><strong>Téléphone :</strong> <a href="tel:+22625499900">${m.tel}</a></p>
+        <p>
+          <a class="btn" href="${m.site}" target="_blank" rel="noopener">${t("ouvrirSite")} agriculture.bf</a>
+        </p>
+        <p><a href="${m.facebook}" target="_blank" rel="noopener">Page Facebook officielle</a></p>
+      </article>`;
+    document.getElementById("list").innerHTML = AGRI.contacts.partenaires.map((p) => `
+      <article class="card">
+        <h3>${p.nom}</h3>
+        <p>${p.role}</p>
+        ${p.adresse ? `<p><strong>Adresse :</strong> ${p.adresse}</p>` : ""}
+        ${p.tel ? `<p><strong>Tél. :</strong> ${p.tel}</p>` : ""}
+        ${p.email ? `<p><strong>Email :</strong> ${p.email}</p>` : ""}
+        ${p.site ? `<p><a class="btn" href="${p.site}" target="_blank" rel="noopener">${t("ouvrirSite")}</a></p>` : ""}
+      </article>`).join("");
   </script>
 </body>
 </html>
