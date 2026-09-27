@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cette semaine — AgriInfo BF</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <div id="header"></div>
+  <main class="wrap section">
+    <h2 id="title"></h2>
+    <p class="note" id="zoneNote"></p>
+    <div id="list" class="grid"></div>
+  </main>
+  <div id="footer"></div>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById("header").outerHTML = headerHTML();
+    document.getElementById("footer").outerHTML = footerHTML();
+    const t = (k) => AgriApp.t(k);
+    const month = new Date().getMonth();
+    const zone = AgriApp.zone();
+    const acts = AGRI.actions[zone][month];
+    document.getElementById("title").textContent = t("semaine") + " — " + AGRI.mois[month].nom;
+    document.getElementById("zoneNote").textContent = t("taZone") + " : " + AGRI.zones[zone].nom + " — " + AGRI.zones[zone].pluie;
+    document.getElementById("list").innerHTML = acts.map((a, i) => `
+      <article class="card"><h3><span class="num">${i + 1}</span> ${a}</h3></article>`).join("");
+  </script>
+</body>
+</html>
