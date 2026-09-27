@@ -1,0 +1,25 @@
+name: Proposition
+description: Photo, contact ZAT, traduction ou correction de conseil
+title: "[aide] "
+labels: ["aide recherchée"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - Photo réelle
+        - Contact ZAT / DPARAH
+        - Traduction
+        - Correction de conseil
+        - Bug
+        - Idée
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Détails
+      description: Source, région, licence de la photo si besoin.
+    validations:
+      required: true

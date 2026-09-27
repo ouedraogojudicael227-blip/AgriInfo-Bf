@@ -1,70 +1,52 @@
 # AgriInfo BF
 
-**Plateforme pour les agriculteurs au Burkina Faso**
+Conseils agricoles simples pour le Burkina Faso.
 
-AgriInfo BF est une plateforme digitale conçue spécialement pour les agriculteurs du Burkina Faso. Elle permet de :
+Site web classique + application mobile (PWA à installer).
+Pas de compte. Pas de mot de passe. Open source.
 
-- Recevoir des **conseils agricoles** adaptés au contexte local
-- **Discuter et échanger** avec d'autres agriculteurs
-- Découvrir et partager des **techniques agricoles** modernes et traditionnelles
+> Version de travail. Les conseils aident au champ ; ils ne remplacent pas le ZAT, la Direction provinciale de l’Agriculture ni les bulletins ANAM.
 
-## ✨ Objectif
+## Ce que fait le projet
 
-Améliorer les rendements, réduire les pertes et renforcer la communauté agricole au Burkina Faso grâce au partage de connaissances et à l'accès à des informations fiables et locales.
+- Fiches cultures (mil, sorgho, maïs, riz, arachide, coton, niébé, sésame, oseille, tomate, voandzou…)
+- Techniques : zaï, demi-lunes, compost, paillage, associations
+- 3 actions de la période + alertes selon le mois et la zone
+- Météo 7 jours (chiffres Open-Meteo) + liens officiels ANAM
+- ZAT / services : chaîne UAT → ZAT → DPARAH → DRARAH → MAERAH
+- Contacts ministère, INERA, UNPS-B, SOFITEX, FAO…
+- Forum anonyme local (`anonyme007`) — messages dans le navigateur seulement
+- Langues : français et anglais
+- Hors-ligne après la première ouverture (service worker)
 
-## 🚀 Fonctionnalités principales
+## Lancer en local (pas d’hébergement requis)
 
-- **Conseils agricoles** :
-  - Conseils par culture (mil, maïs, riz, arachide, coton, etc.)
-  - Conseils selon la saison et la région
-  - Alertes météo et maladies des plantes
+```bash
+git clone https://github.com/ouedraogojudicael227-blip/AgriInfo-Bf.git
+cd AgriInfo-Bf
+python3 -m http.server 8080
+```
 
-- **Espace communautaire** :
-  - Forum de discussion entre agriculteurs
-  - Groupes par région ou par type de culture
-  - Partage d'expériences et de solutions
+Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=app` (vue application).
 
-- **Techniques agricoles** :
-  - Fiches techniques détaillées
-  - Méthodes traditionnelles et modernes
-  - Agriculture durable et agroécologie
-  - Gestion de l'eau et des sols
+## Sources officielles
 
-- **Autres fonctionnalités** :
-  - Recherche par culture, région ou problème
-  - Mode sombre / clair
-  - Version mobile-friendly
-  - Espace favoris et historique
+- Ministère : https://www.agriculture.bf/
+- Structures : https://www.agriculture.bf/les-structures/
+- Météo d’État : https://meteoburkina.bf/
+- Saison Sahel : https://agrhymet.cilss.int/
+- Recherche : https://www.inera.bf/
 
-## 📁 Structure du projet
+## Contribuer
 
-Le code source (frontend + backend) sera ajouté prochainement par le créateur.
+Lis [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## 🔧 Technologies
+On cherche surtout : photos réelles niébé et sésame, numéros DPARAH/ZAT vérifiés, traductions, corrections INERA/DGPV.
 
-(Technologies à définir selon le code source qui sera uploadé)
+## Auteur
 
-## 👤 Auteur
+**Judicaël Ouedraogo** — [ouedraogojudicael227-blip](https://github.com/ouedraogojudicael227-blip)
 
-**Judicaël Ouedraogo** (ouedraogojudicael227)
+## Licence
 
-Passionné de développement et d'impact social. Je crée des outils numériques utiles pour les communautés rurales et agricoles au Burkina Faso.
-
-## 🔗 Licence
-
-MIT (ou à définir)
-
-## 🚢 Roadmap
-
-- [ ] Intégration de données météo locales
-- [ ] Système de notification (SMS / push)
-- [ ] Base de données des cultures adaptées au Burkina Faso
-- [ ] Version mobile (React Native / Flutter)
-- [ ] Mode multilingue (Français, Mooré, Dioula, etc.)
-- [ ] Partenariats avec des structures agricoles (ministère, coopératives)
-
-Contributions et idées bienvenues !
-
----
-
-**AgriInfo BF** — L'agriculture plus forte, ensemble. 🌿
+[MIT](LICENSE)
