@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
+  <rect width="1200" height="720" fill="#f4f1ea"/>
+  <rect width="1200" height="118" fill="#fffdf8"/>
+  <rect y="118" width="1200" height="3" fill="#2f6b32"/>
+  <rect x="48" y="28" width="42" height="42" rx="12" fill="#2f6b32"/>
+  <text x="102" y="46" font-family="Segoe UI, Arial" font-size="18" font-weight="700" fill="#1c2a1a">AgriInfo</text>
+  <text x="102" y="64" font-family="Segoe UI, Arial" font-size="18" font-weight="700" fill="#1c2a1a">BF</text>
+  <text x="280" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="700" fill="#1c2a1a">Accueil</text>
+  <line x1="278" y1="46" x2="330" y2="46" stroke="#1c2a1a" stroke-width="2"/>
+  <text x="350" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Conseils</text>
+  <text x="430" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Techniques</text>
+  <text x="530" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Meteo</text>
+  <text x="595" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">ZAT / services</text>
+  <text x="720" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Cette semaine</text>
+  <text x="850" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Alertes</text>
+  <text x="920" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Saison</text>
+  <text x="985" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Forum</text>
+  <text x="1055" y="38" font-family="Segoe UI, Arial" font-size="14" font-weight="600" fill="#1c2a1a">Contacts</text>
+  <rect x="280" y="58" width="70" height="28" rx="14" fill="#fff" stroke="#d7e0d1"/>
+  <text x="296" y="77" font-family="Segoe UI, Arial" font-size="12" font-weight="600" fill="#1c2a1a">Theme</text>
+  <rect x="358" y="58" width="110" height="28" rx="14" fill="#2f6b32"/>
+  <text x="372" y="77" font-family="Segoe UI, Arial" font-size="12" font-weight="700" fill="#fff">Installer l app</text>
+  <text x="48" y="108" font-family="Segoe UI, Arial" font-size="13" fill="#5b6857">Region</text>
+  <rect x="102" y="90" width="90" height="24" rx="8" fill="#fff" stroke="#d7e0d1"/>
+  <text x="112" y="107" font-family="Segoe UI, Arial" font-size="12" fill="#1c2a1a">Centre</text>
+  <rect x="202" y="90" width="92" height="24" rx="12" fill="#fff" stroke="#d7e0d1" stroke-dasharray="3 2"/>
+  <text x="214" y="107" font-family="Segoe UI, Arial" font-size="12" fill="#5b6857">anonyme007</text>
+  <rect x="80" y="150" width="1040" height="360" rx="28" fill="#f7f6e8" stroke="#d7e0d1"/>
+  <text x="120" y="220" font-family="Segoe UI, Arial" font-size="36" font-weight="800" fill="#1c2a1a">Conseils agricoles pour le Burkina Faso</text>
+  <text x="120" y="258" font-family="Segoe UI, Arial" font-size="16" fill="#5b6857">Des infos simples selon ta region : cultures, techniques, alertes et 3 actions pour cette periode.</text>
+  <rect x="120" y="280" width="520" height="44" rx="14" fill="#fff" stroke="#d7e0d1"/>
+  <text x="136" y="307" font-family="Segoe UI, Arial" font-size="14" fill="#8a9586">Rechercher une culture, une region ou un probleme...</text>
+  <rect x="652" y="280" width="110" height="44" rx="14" fill="#2f6b32"/>
+  <text x="674" y="307" font-family="Segoe UI, Arial" font-size="15" font-weight="700" fill="#fff">Chercher</text>
+  <text x="120" y="350" font-family="Segoe UI, Arial" font-size="13" fill="#5b6857">Ta zone climatique : Centre / Est / Mouhoun — Saison moyenne.</text>
+  <text x="120" y="372" font-family="Segoe UI, Arial" font-size="13" fill="#5b6857">Pas de compte. Pas de mot de passe. Projet libre (open source).</text>
+  <rect x="120" y="400" width="130" height="40" rx="14" fill="#2f6b32"/>
+  <text x="138" y="425" font-family="Segoe UI, Arial" font-size="13" font-weight="700" fill="#fff">Installer l app</text>
+  <rect x="262" y="400" width="180" height="40" rx="14" fill="#fff" stroke="#d7e0d1"/>
+  <text x="278" y="425" font-family="Segoe UI, Arial" font-size="13" font-weight="600" fill="#1c2a1a">Ouvrir comme application</text>
+  <rect x="454" y="400" width="140" height="40" rx="14" fill="#fff" stroke="#d7e0d1"/>
+  <text x="472" y="425" font-family="Segoe UI, Arial" font-size="13" font-weight="600" fill="#1c2a1a">Activer les alertes</text>
+  <text x="80" y="550" font-family="Segoe UI, Arial" font-size="22" font-weight="700" fill="#1c2a1a">3 actions maintenant</text>
+  <rect x="80" y="570" width="1040" height="110" rx="18" fill="#fff" stroke="#d7e0d1"/>
+  <circle cx="120" cy="625" r="16" fill="#2f6b32"/>
+  <text x="115" y="631" font-family="Segoe UI, Arial" font-size="14" font-weight="700" fill="#fff">1</text>
+  <text x="150" y="631" font-family="Segoe UI, Arial" font-size="18" font-weight="700" fill="#1c2a1a">Chasser et surveiller les oiseaux sur mil, sorgho et riz.</text>
+</svg>
