@@ -1,4 +1,4 @@
-const CACHE = "agriinfo-bf-v6";
+const CACHE = "agriinfo-bf-v7";
 const FILES = [
   "./",
   "./index.html",
