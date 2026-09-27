@@ -15,13 +15,10 @@
   function read(key, fallback) {
     return localStorage.getItem(key) || getCookie(key) || fallback;
   }
-
   const theme = read("agri-theme", "light");
   document.documentElement.setAttribute("data-theme", theme);
-
   const favs = () => JSON.parse(localStorage.getItem("agri-favs") || "[]");
   const saveFavs = (list) => localStorage.setItem("agri-favs", JSON.stringify(list));
-
   window.AgriApp = {
     lang() { return read("agri-lang", "fr"); },
     regionId() { return read("agri-region", "centre"); },
@@ -43,28 +40,19 @@
     anonId() {
       let id = localStorage.getItem("agri-anon");
       if (!id) {
-        const n = String(Math.floor(Math.random() * 1000)).padStart(3, "0");
-        id = "anonyme" + n;
+        id = "anonyme" + String(Math.floor(Math.random() * 1000)).padStart(3, "0");
         localStorage.setItem("agri-anon", id);
       }
       return id;
     },
     newAnonId() {
-      const n = String(Math.floor(Math.random() * 1000)).padStart(3, "0");
-      const id = "anonyme" + n;
+      const id = "anonyme" + String(Math.floor(Math.random() * 1000)).padStart(3, "0");
       localStorage.setItem("agri-anon", id);
       return id;
     },
-    t(key) {
-      const lang = this.lang();
-      return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key;
-    },
-    region() {
-      return AGRI.regions.find((r) => r.id === this.regionId()) || AGRI.regions[3];
-    },
-    zone() {
-      return this.region().zone;
-    },
+    t(key) { const lang = this.lang(); return (I18N[lang] && I18N[lang][key]) || I18N.fr[key] || key; },
+    region() { return AGRI.regions.find((r) => r.id === this.regionId()) || AGRI.regions[3]; },
+    zone() { return this.region().zone; },
     setLang(v) { store("agri-lang", v); location.reload(); },
     setRegion(v) { store("agri-region", v); location.reload(); },
     toggleTheme() {
@@ -85,14 +73,8 @@
     },
     async loadMeteo(region) {
       const r = region || this.region();
-      const url = "https://api.open-meteo.com/v1/forecast?latitude=" + r.lat +
-        "&longitude=" + r.lon +
-        "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Africa%2FOuagadougou&forecast_days=7";
-      try {
-        const res = await fetch(url);
-        if (!res.ok) return null;
-        return await res.json();
-      } catch (e) { return null; }
+      const url = "https://api.open-meteo.com/v1/forecast?latitude=" + r.lat + "&longitude=" + r.lon + "&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Africa%2FOuagadougou&forecast_days=7";
+      try { const res = await fetch(url); if (!res.ok) return null; return await res.json(); } catch (e) { return null; }
     },
     search(q) {
       const query = (q || "").trim().toLowerCase();
@@ -100,12 +82,10 @@
       location.href = "conseils.html?q=" + encodeURIComponent(query);
     },
     img(id) {
-      const jpg = ["mil", "sorgho", "mais", "riz", "arachide", "coton", "association", "grenier", "oseille", "tomate", "voandzou", "zai", "demi-lunes", "compost", "paillage"];
-      return jpg.includes(id) ? "img/" + id + ".jpg" : "";
+      const ok = ["mil", "sorgho", "mais", "riz", "arachide", "coton", "association", "grenier", "oseille", "tomate", "voandzou", "zai", "demi-lunes", "compost", "paillage"];
+      return ok.includes(id) ? "img/" + id + ".svg" : "";
     },
-    isStandalone() {
-      return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
-    },
+    isStandalone() { return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true; },
     isApp() {
       const q = new URLSearchParams(location.search).get("shell");
       if (q === "app") localStorage.setItem("agri-shell", "app");
@@ -130,7 +110,7 @@
     disableNotifs() { localStorage.setItem("agri-notif", "off"); },
     async pushNotif(title, body, url) {
       if (!("Notification" in window) || Notification.permission !== "granted") return;
-      const opts = { body, icon: "img/icon-192.png", badge: "img/icon-192.png", lang: "fr", tag: title.slice(0, 40), data: { url: url || "alertes.html" } };
+      const opts = { body, icon: "img/icon.svg", lang: "fr", tag: title.slice(0, 40), data: { url: url || "alertes.html" } };
       if (navigator.serviceWorker && navigator.serviceWorker.ready) {
         const reg = await navigator.serviceWorker.ready;
         if (reg.showNotification) { await reg.showNotification(title, opts); return; }
@@ -159,93 +139,33 @@
       alert(this.t("installerAide"));
     }
   };
-
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").then(function () {
       setTimeout(function () { AgriApp.checkNotifs(); }, 800);
     }).catch(function () {});
   }
 })();
-
 function headerHTML() {
   const t = (k) => AgriApp.t(k);
   const app = AgriApp.isApp();
   document.documentElement.setAttribute("data-shell", app ? "app" : "web");
-  const regionOpts = AGRI.regions.map((r) =>
-    `<option value="${r.id}" ${r.id === AgriApp.regionId() ? "selected" : ""}>${r.nom}</option>`
-  ).join("");
+  const regionOpts = AGRI.regions.map((r) => `<option value="${r.id}" ${r.id === AgriApp.regionId() ? "selected" : ""}>${r.nom}</option>`).join("");
   const here = (location.pathname.split("/").pop() || "index.html");
   const link = (href, label) => `<a href="${href}" class="${href === here ? "active" : ""}">${label}</a>`;
-  const settings = `
-      <div class="wrap settings">
-        <label>${t("region")}<select onchange="AgriApp.setRegion(this.value)">${regionOpts}</select></label>
-        <span class="anon-chip" title="${t("tonPseudo")}">${AgriApp.anonId()}</span>
-        <label>${t("langue")}
-          <select onchange="AgriApp.setLang(this.value)">
-            <option value="fr" ${AgriApp.lang() === "fr" ? "selected" : ""}>Français</option>
-            <option value="en" ${AgriApp.lang() === "en" ? "selected" : ""}>English</option>
-          </select>
-        </label>
-      </div>`;
+  const settings = `<div class="wrap settings"><label>${t("region")}<select onchange="AgriApp.setRegion(this.value)">${regionOpts}</select></label><span class="anon-chip">${AgriApp.anonId()}</span><label>${t("langue")}<select onchange="AgriApp.setLang(this.value)"><option value="fr" ${AgriApp.lang() === "fr" ? "selected" : ""}>Francais</option><option value="en" ${AgriApp.lang() === "en" ? "selected" : ""}>English</option></select></label></div>`;
   if (app) {
-    return `
-    <div class="top app-top">
-      <div class="wrap top-inner">
-        <a class="brand" href="index.html">AgriInfo</a>
-        <div class="row"><button class="icon-btn" onclick="AgriApp.toggleTheme()">${t("theme")}</button></div>
-      </div>
-      ${settings}
-    </div>
-    <nav class="tabbar" id="tabbar">
-      <a href="index.html" class="${here === "index.html" ? "active" : ""}">${t("accueil")}</a>
-      <a href="conseils.html" class="${here === "conseils.html" ? "active" : ""}">${t("conseils")}</a>
-      <a href="meteo.html" class="${here === "meteo.html" ? "active" : ""}">${t("meteo")}</a>
-      <a href="zat.html" class="${here === "zat.html" ? "active" : ""}">${t("zat")}</a>
-      <a href="plus.html" class="${here === "plus.html" ? "active" : ""}">${t("plus")}</a>
-    </nav>`;
+    return `<div class="top app-top"><div class="wrap top-inner"><a class="brand" href="index.html">AgriInfo</a><div class="row"><button class="icon-btn" onclick="AgriApp.toggleTheme()">${t("theme")}</button></div></div>${settings}</div><nav class="tabbar" id="tabbar"><a href="index.html" class="${here === "index.html" ? "active" : ""}">${t("accueil")}</a><a href="conseils.html" class="${here === "conseils.html" ? "active" : ""}">${t("conseils")}</a><a href="meteo.html" class="${here === "meteo.html" ? "active" : ""}">${t("meteo")}</a><a href="zat.html" class="${here === "zat.html" ? "active" : ""}">${t("zat")}</a><a href="plus.html" class="${here === "plus.html" ? "active" : ""}">${t("plus")}</a></nav>`;
   }
-  return `
-    <div class="top web-top">
-      <div class="wrap top-inner">
-        <a class="brand" href="index.html">AgriInfo BF</a>
-        <div class="row">
-          <button class="icon-btn menu-btn" onclick="AgriApp.toggleMenu()">${t("menu")}</button>
-          <nav id="nav">
-            ${link("index.html", t("accueil"))}
-            ${link("conseils.html", t("conseils"))}
-            ${link("techniques.html", t("techniques"))}
-            ${link("meteo.html", t("meteo"))}
-            ${link("zat.html", t("zat"))}
-            ${link("semaine.html", t("semaine"))}
-            ${link("alertes.html", t("alertes"))}
-            ${link("saison.html", t("saison"))}
-            ${link("communaute.html", t("communaute"))}
-            ${link("contacts.html", t("contacts"))}
-            ${link("favoris.html", t("favoris"))}
-          </nav>
-          <button class="icon-btn" onclick="AgriApp.toggleTheme()">${t("theme")}</button>
-          <button class="btn install-btn" onclick="AgriApp.installApp()">${t("installerApp")}</button>
-        </div>
-      </div>
-      ${settings}
-    </div>`;
+  return `<div class="top web-top"><div class="wrap top-inner"><a class="brand" href="index.html">AgriInfo BF</a><div class="row"><button class="icon-btn menu-btn" onclick="AgriApp.toggleMenu()">${t("menu")}</button><nav id="nav">${link("index.html", t("accueil"))}${link("conseils.html", t("conseils"))}${link("techniques.html", t("techniques"))}${link("meteo.html", t("meteo"))}${link("zat.html", t("zat"))}${link("semaine.html", t("semaine"))}${link("alertes.html", t("alertes"))}${link("saison.html", t("saison"))}${link("communaute.html", t("communaute"))}${link("contacts.html", t("contacts"))}${link("favoris.html", t("favoris"))}</nav><button class="icon-btn" onclick="AgriApp.toggleTheme()">${t("theme")}</button><button class="btn install-btn" onclick="AgriApp.installApp()">${t("installerApp")}</button></div></div>${settings}</div>`;
 }
-
 function cookieBarHTML() {
   const t = (k) => AgriApp.t(k);
   if (document.cookie.includes("agri-cookie=")) return "";
   return `<div id="cookieBar" class="cookie-bar"><div class="wrap cookie-inner"><p>${t("cookieTexte")} <a href="cookies.html">${t("enSavoirPlus")}</a></p><div class="row"><button class="btn" onclick="AgriApp.acceptCookies()">${t("accepterCookies")}</button><button class="btn ghost" onclick="AgriApp.refuseCookies()">${t("refuserCookies")}</button></div></div></div>`;
 }
-
 function footerHTML() {
   const t = (k) => AgriApp.t(k);
-  if (AgriApp.isApp()) {
-    return `<footer class="app-foot"><div class="wrap"><small>${t("anonyme")}</small></div></footer>` + cookieBarHTML();
-  }
-  return `<footer class="web-foot"><div class="wrap"><p>${t("footer")}</p><p><small>${t("anonyme")} ${t("openSource")}</small></p><p><button class="btn" onclick="AgriApp.installApp()">${t("installerApp")}</button> <button class="btn ghost" onclick="AgriApp.setShell('app')">${t("ouvrirApp")}</button></p><p><small><a href="cookies.html">${t("cookiesLien")}</a></small></p></div></footer>` + cookieBarHTML();
+  if (AgriApp.isApp()) return `<footer class="app-foot"><div class="wrap"><small>${t("anonyme")}</small></div></footer>` + cookieBarHTML();
+  return `<footer class="web-foot"><div class="wrap"><p>${t("footer")}</p><p><small>${t("anonyme")} ${t("openSource")}</small></p><p><button class="btn" onclick="AgriApp.installApp()">${t("installerApp")}</button> <button class="btn ghost" onclick="AgriApp.setShell('app')">${t("ouvrirApp")}</button></p></div></footer>` + cookieBarHTML();
 }
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  window.__agriDeferredPrompt = e;
-});
+window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.__agriDeferredPrompt = e; });
