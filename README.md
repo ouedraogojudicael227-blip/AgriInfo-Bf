@@ -37,7 +37,7 @@ Ouvre `index.html?shell=app` ou installe la PWA depuis le bouton **Installer l�
 - ZAT / services : chaîne UAT → ZAT → DPARAH → DRARAH → MAERAH
 - Contacts ministère, INERA, UNPS-B, SOFITEX, FAO…
 - Forum anonyme local (`anonyme007`) — messages dans le navigateur seulement
-- Langues : français et anglais
+- Langues : français et anglais pour l’instant — **on cherche des traductions en mooré, dioula et fulfuldé**
 - Hors-ligne après la première ouverture (service worker)
 
 ## Lancer en local (pas d’hébergement requis)
@@ -49,6 +49,24 @@ python3 -m http.server 8080
 ```
 
 Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=app` (vue application).
+
+## Branches
+
+- `main` — version stable. **Personne ne pousse directement dessus.** Il faut une pull request.
+- `develop` — travail en cours.
+- `i18n/langues-locales` — traductions mooré, dioula, fulfuldé.
+
+## Contribuer
+
+Lis [CONTRIBUTING.md](CONTRIBUTING.md).
+
+**Ce qu’on attend surtout : traduire l’interface en langues locales** (mooré, dioula, fulfuldé) dans `js/i18n.js`, depuis la branche `i18n/langues-locales`.
+
+Aussi bienvenus ensuite :
+
+- photos réelles niébé et sésame au Burkina (licence libre)
+- numéros DPARAH / ZAT vérifiés sur place
+- corrections de conseils d’après fiches INERA / DGPV
 
 ## Structure
 
@@ -68,7 +86,7 @@ Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=
 ├── css/style.css
 ├── js/app.js
 ├── js/data.js
-├── js/i18n.js
+├── js/i18n.js              Textes FR / EN / langues locales
 ├── manifest.json + sw.js
 ├── img/                    Photos cultures
 ├── img/screens/            Captures README
@@ -84,15 +102,6 @@ Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=
 - Météo d’État : https://meteoburkina.bf/
 - Saison Sahel : https://agrhymet.cilss.int/
 - Recherche : https://www.inera.bf/
-
-## Contribuer
-
-Lis [CONTRIBUTING.md](CONTRIBUTING.md). On cherche surtout :
-
-- photos réelles niébé et sésame au Burkina (licence libre)
-- numéros DPARAH / ZAT vérifiés sur place
-- traductions (anglais d’abord, mooré et dioula ensuite)
-- corrections de conseils d’après fiches INERA / DGPV
 
 ## Auteur
 
