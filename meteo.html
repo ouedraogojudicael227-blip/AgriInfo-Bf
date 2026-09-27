@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Meteo — AgriInfo BF</title>
+  <title>Météo — AgriInfo BF</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="manifest" href="manifest.json" />
 </head>
@@ -12,16 +12,17 @@
   <main class="wrap section">
     <h2 id="title"></h2>
     <p class="note" id="note"></p>
-    <div id="box" class="card"><p class="note">...</p></div>
+    <div id="box" class="card"><p class="note">…</p></div>
     <div id="days" class="grid"></div>
     <article class="card">
       <h3>Source officielle ANAM</h3>
-      <p>La meteo d Etat est sur <strong>meteoburkina.bf</strong>.</p>
+      <p>La météo d’État est sur <strong>meteoburkina.bf</strong> (Agence Nationale de la Météorologie). Les chiffres ci-dessus aident au champ ; les alertes officielles sont chez ANAM.</p>
       <p>
         <a class="btn" href="https://meteoburkina.bf/" target="_blank" rel="noopener">meteoburkina.bf</a>
         <a class="btn ghost" href="https://meteoburkina.bf/alertes-meteorologiques/" target="_blank" rel="noopener">Alertes ANAM</a>
+        <a class="btn ghost" href="https://meteoburkina.bf/mapviewer" target="_blank" rel="noopener">Carte</a>
       </p>
-      <p><a href="https://agrhymet.cilss.int/" target="_blank" rel="noopener">AGRHYMET / PRESASS</a></p>
+      <p><a href="https://agrhymet.cilss.int/" target="_blank" rel="noopener">Prévision saisonnière AGRHYMET / PRESASS</a></p>
     </article>
   </main>
   <div id="footer"></div>
@@ -36,10 +37,22 @@
     document.getElementById("title").textContent = t("meteo") + " — " + r.ville;
     document.getElementById("note").textContent = t("meteoNote");
     AgriApp.loadMeteo(r).then((d) => {
-      if (!d) { document.getElementById("box").innerHTML = `<p>${t("meteoErreur")}</p>`; return; }
+      if (!d) {
+        document.getElementById("box").innerHTML = `<p>${t("meteoErreur")}</p>`;
+        return;
+      }
       const today = d.daily;
-      document.getElementById("box").innerHTML = `<div class="tag">${r.nom} · ${r.ville}</div><h3>${Math.round(today.temperature_2m_max[0])}° / ${Math.round(today.temperature_2m_min[0])}°</h3><p>${t("pluieJour")} : ${today.precipitation_sum[0]} mm</p><p class="note">${t("meteoSource")}</p>`;
-      document.getElementById("days").innerHTML = today.time.map((day, i) => `<article class="card"><h3>${new Date(day).toLocaleDateString(AgriApp.lang() === "en" ? "en-GB" : "fr-FR", { weekday: "short", day: "numeric", month: "short" })}</h3><p>${Math.round(today.temperature_2m_max[i])}° / ${Math.round(today.temperature_2m_min[i])}°</p><p>${t("pluieJour")} : ${today.precipitation_sum[i]} mm</p></article>`).join("");
+      document.getElementById("box").innerHTML = `
+        <div class="tag">${r.nom} · ${r.ville}</div>
+        <h3>${Math.round(today.temperature_2m_max[0])}° / ${Math.round(today.temperature_2m_min[0])}°</h3>
+        <p>${t("pluieJour")} : ${today.precipitation_sum[0]} mm</p>
+        <p class="note">${t("meteoSource")}</p>`;
+      document.getElementById("days").innerHTML = today.time.map((day, i) => `
+        <article class="card">
+          <h3>${new Date(day).toLocaleDateString(AgriApp.lang() === "en" ? "en-GB" : "fr-FR", { weekday: "short", day: "numeric", month: "short" })}</h3>
+          <p>${Math.round(today.temperature_2m_max[i])}° / ${Math.round(today.temperature_2m_min[i])}°</p>
+          <p>${t("pluieJour")} : ${today.precipitation_sum[i]} mm</p>
+        </article>`).join("");
     });
   </script>
 </body>

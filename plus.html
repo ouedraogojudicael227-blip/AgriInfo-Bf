@@ -32,14 +32,26 @@
       <a class="card" href="favoris.html"><h3>${t("favoris")}</h3></a>
       <article class="card">
         <h3>${t("notifs")}</h3>
+        <p>${t("notifExplique")}</p>
         <p id="notifEtat" class="note"></p>
-        <p><button class="btn" type="button" onclick="AgriApp.enableNotifs().then(majNotif)">${t("activerNotifs")}</button></p>
+        <p>
+          <button class="btn" type="button" onclick="AgriApp.enableNotifs().then(majNotif)">${t("activerNotifs")}</button>
+          <button class="btn ghost" type="button" onclick="AgriApp.disableNotifs(); majNotif()">${t("couperNotifs")}</button>
+        </p>
       </article>
-      <p class="anon-chip">${AgriApp.anonId()}</p>
-      <button class="btn" onclick="AgriApp.installApp()">${t("installerApp")}</button>`;
+      <article class="card">
+        <h3>${t("tonPseudo")}</h3>
+        <p id="anonNow">${AgriApp.anonId()}</p>
+        <p><button class="btn ghost" type="button" onclick="document.getElementById('anonNow').textContent = AgriApp.newAnonId()">${t("nouveauPseudo")}</button></p>
+      </article>
+      <button class="btn" onclick="AgriApp.installApp()">${t("installerApp")}</button>
+      <button class="btn ghost" onclick="AgriApp.setShell('web')">${t("voirSite")}</button>
+    `;
     window.majNotif = function () {
       const el = document.getElementById("notifEtat");
-      if (el) el.textContent = AgriApp.notifOn() ? t("notifActives") : t("notifOff");
+      if (!el) return;
+      const ok = AgriApp.notifOn() && Notification.permission === "granted";
+      el.textContent = ok ? t("notifActives") : t("notifOff");
     };
     majNotif();
   </script>
