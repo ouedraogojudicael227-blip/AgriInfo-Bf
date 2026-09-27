@@ -7,6 +7,27 @@ Pas de compte. Pas de mot de passe. Open source.
 
 > Version de travail. Les conseils aident au champ ; ils ne remplacent pas le ZAT, la Direction provinciale de l’Agriculture ni les bulletins ANAM.
 
+## Captures d’écran
+
+### Site web
+
+Accueil (barre du haut, recherche, actions de la période) :
+
+![Accueil du site AgriInfo BF](img/screens/web-accueil.svg)
+
+Fiches cultures (mil, sorgho, photos réelles, conseils par zone) :
+
+![Fiches conseils AgriInfo BF](img/screens/web-conseils.svg)
+
+### Application mobile (PWA)
+
+Accueil avec onglets en bas, puis forum anonyme (`anonyme007`) :
+
+<img src="img/screens/app-accueil.svg" alt="Accueil de l’application AgriInfo BF" width="280" />
+<img src="img/screens/app-forum.svg" alt="Forum anonyme AgriInfo BF" width="280" />
+
+Ouvre `index.html?shell=app` ou installe la PWA depuis le bouton **Installer l’app**.
+
 ## Ce que fait le projet
 
 - Fiches cultures (mil, sorgho, maïs, riz, arachide, coton, niébé, sésame, oseille, tomate, voandzou…)
@@ -29,6 +50,33 @@ python3 -m http.server 8080
 
 Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=app` (vue application).
 
+## Structure
+
+```
+├── index.html              Accueil
+├── conseils.html           Fiches cultures
+├── techniques.html
+├── semaine.html            3 actions
+├── alertes.html
+├── saison.html
+├── meteo.html              Prévision + liens ANAM
+├── zat.html                Services agricoles déconcentrés
+├── contacts.html
+├── communaute.html         Forum anonyme
+├── favoris.html
+├── plus.html / app.html / cookies.html
+├── css/style.css
+├── js/app.js
+├── js/data.js
+├── js/i18n.js
+├── manifest.json + sw.js
+├── img/                    Photos cultures
+├── img/screens/            Captures README
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+└── LICENSE                 MIT
+```
+
 ## Sources officielles
 
 - Ministère : https://www.agriculture.bf/
@@ -39,9 +87,12 @@ Ouvre `http://localhost:8080` (site) ou `http://localhost:8080/index.html?shell=
 
 ## Contribuer
 
-Lis [CONTRIBUTING.md](CONTRIBUTING.md).
+Lis [CONTRIBUTING.md](CONTRIBUTING.md). On cherche surtout :
 
-On cherche surtout : photos réelles niébé et sésame, numéros DPARAH/ZAT vérifiés, traductions, corrections INERA/DGPV.
+- photos réelles niébé et sésame au Burkina (licence libre)
+- numéros DPARAH / ZAT vérifiés sur place
+- traductions (anglais d’abord, mooré et dioula ensuite)
+- corrections de conseils d’après fiches INERA / DGPV
 
 ## Auteur
 
@@ -49,4 +100,7 @@ On cherche surtout : photos réelles niébé et sésame, numéros DPARAH/ZAT vé
 
 ## Licence
 
-[MIT](LICENSE)
+[MIT](LICENSE) — tu peux copier, modifier et partager.
+
+Les photos dans `img/` gardent la licence de leur source (voir [PHOTOS.md](PHOTOS.md)).
+Les captures dans `img/screens/` montrent l’interface actuelle du projet.
